@@ -26,14 +26,16 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/beranda">Beranda</a>
+                            <a class="nav-link" aria-current="page" href="/beranda">Beranda</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/profil">Profil Kami</a>
                         </li>
+                        @auth
                         <li class="nav-item">
                             <a class="nav-link" href="https://datastudio.withgoogle.com/">Dashboard Kinerja</a>
                         </li>
+                        @endauth
                         <li class="nav-item">
                             @auth
                                 <!-- Tautan Logout -->
@@ -69,12 +71,14 @@
                     <td class="py-5" width="20%">
                         <div class="atribut">
                             <h4 class="fw-bold">Selamat Datang</h4>
+                            @auth
                             <p class="text-center fw-bold">
-                                Fulan wa Sahlan
+                                {{ auth()->user()->name }}
                                 <br>
-                                fulan@gmail.com
+                                {{ auth()->user()->email }}
                             </p>
-                            <hr>
+                            @endauth
+                            <hr/>
                             <div class="judul">
                                 <p class="fw-bold">ATRIBUT</p>
                             </div>
@@ -89,6 +93,7 @@
                                     <a href="https://mail.google.com/">Gmail</a>
                                 </li>
                             </ul><br>
+                            @auth
                             <div class="judul">
                                 <p class="fw-bold">UPDATE INFORMASI</p>
                             </div>
@@ -103,6 +108,7 @@
                                     <a href="/register">Tambah Akun</a>
                                 </li>
                             </ul>
+                            @endauth
                         </div>
                     </td>
 
