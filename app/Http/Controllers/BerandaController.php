@@ -39,10 +39,23 @@ class BerandaController extends Controller
         'berita_singkat'=> 'required|string',
         'tanggal_berita'=> 'required|string',
         'isi_berita'=> 'required|string',
-        'gambar' => 'required',
+        'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|file|max:5000',
         ]);
 
-        Beranda::create($validated);
+        $ext = $request->gambar->getClientOriginalExtension();
+        $nama_file = "foto-".time().".".$ext;
+        $path = $request->gambar->storeAs("public/gambar", $nama_file);
+
+        // $gambarPath = $request->file('gambar')->store('public/gambar');
+        // str_replace("public","storage",$gambarPath);
+        $beranda = new Beranda();
+        $beranda->judul_berita = $validated['judul_berita'];
+        $beranda->berita_singkat = $validated['berita_singkat'];
+        $beranda->tanggal_berita = $validated['tanggal_berita'];
+        $beranda->isi_berita = $validated['isi_berita'];
+        $beranda->gambar = $nama_file;
+        $beranda->save();
+
         return redirect(route('beranda.index'));
     }
 

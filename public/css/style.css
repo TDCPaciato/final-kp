@@ -12,7 +12,9 @@
         background-attachment: fixed;
         background-size: cover;
         background-position: center;
-        position: absolute; 
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
     }
 
     .atribut {
@@ -41,6 +43,7 @@
         position: absolute;
         width: 100%;
         padding-bottom: 8px;
+        
     }
     
     .berita {
@@ -168,17 +171,11 @@
 
     footer {
         background-color: #B3CEFF;
-        margin-top: 20px;
-        padding-bottom: 20px;
         padding-inline-start: 50px;
         padding-top: 20px;
         display: flex;
         flex-direction: column;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        z-index: 1;
-        /* position: fixed; */
+        margin-top: auto;
     }
 
 /* @media (max-width: 1366) {

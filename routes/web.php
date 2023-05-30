@@ -35,8 +35,8 @@ Route::get('/', function () {
         //     ]);
         // });
         
-        Route::resource('beranda', BerandaController::class);
-        Route::resource('pengumuman', PengumumanController::class);
+Route::resource('beranda', BerandaController::class);
+Route::resource('pengumuman', PengumumanController::class);
 
 Route::get('/profil', function () {
     return view('profil');

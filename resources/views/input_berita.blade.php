@@ -134,7 +134,7 @@
                                     <h5><strong>Isi Berita Kegiatan</strong></h5>
                                     <textarea rows="10" cols="100" class="span12" name="isi_berita" required></textarea>
                                     <h5><strong>Dokumentasi</strong></h5>
-                                    <input type="text" name="gambar" multiple required><br>
+                                    <input type="file" name="gambar" multiple required><br>
                                     <button type="reset" class="btn btn-transparent">Kembali</button>
                                     <button type="submit" class="btn btn-info">Kirim</button>
                                 </form>

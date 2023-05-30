@@ -128,8 +128,8 @@
                                         <h5><strong>{{ $konten->judul_berita }}</strong></h5>
                                     </div>
                                     <p>{{ $konten->isi_berita }}</p>
-                                    {{-- <img src="{{ $gambar }}" class="img-fluid" alt="Responsive image"
-                                        width="800px"> --}}
+                                    <img src="{{ asset('storage/gambar/' . $konten->gambar) }}" alt="dokumentasi"
+                                        width="100%" height="400px">
                                 </div>
                             </article>
                         </div>

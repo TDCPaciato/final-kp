@@ -11,14 +11,16 @@ class AdminPolicy
 
     public function viewAny(User $user)
     {
-
+        // Periksa apakah pengguna memiliki hak akses untuk melihat semua informasi admin
+        return $user->isAdmin();
     }
     
-    public function view_informasi(User $user){
-        return in_array($user->email, [
+    public function view_informasi(User $user)
+    {
+        // Periksa apakah pengguna memiliki hak akses untuk melihat informasi admin
+        return $user->isAdmin() || in_array($user->email, [
             'rizky@administrator.com',
             'fernandi@administrator.com'
         ]);
     }
-
 }

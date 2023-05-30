@@ -9,7 +9,7 @@
         rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
         crossorigin="anonymous">
     <link rel="stylesheet" href={{ asset('css/style.css') }}>
-    <title>PLN UIP Sumbagsel | Konten</title>
+    <title>PLN UIP Sumbagsel | Beranda</title>
 </head>
 
 <body>
@@ -98,7 +98,7 @@
                                     <a href="https://mail.google.com/">Gmail</a>
                                 </li>
                             </ul><br>
-                            @can('view_informasi')
+                            @can('view_informasi', auth()->user())
                                 <div class="judul">
                                     <p class="fw-bold">UPDATE INFORMASI</p>
                                 </div>
@@ -113,77 +113,78 @@
                                         <a href="/register">Tambah Akun</a>
                                     </li>
                                 </ul>
-                            </div>
                             @endcan
-                        </td>
 
-                        <td class="py-5" width="60%">
-                            <div class="berita">
-                                <div class="judul">
-                                    <p class="fw-bold">BERITA KEGIATAN</p>
-                                </div>
-                                @foreach ($data as $value)
-                                    <div id="konten">
-                                        <div style="color: red" id="tanggal_berita">{{ $value->tanggal_berita }}</div>
-                                        <div id="judul_berita">
-                                            <a href="{{ route('beranda.show', $value->id) }}">
-                                                <h5><strong>{{ $value->judul_berita }}</strong></h5>
-                                            </a>
+                    </td>
 
-                                        </div>
-                                        <p>{{ $value->berita_singkat }}</p>
-                                        <img src="{{ $value->gambar }}" alt="dokumentasi" width="800px">
-                                    </div>
-                                @endforeach
-                                <hr />
-                                [ <a href="beranda_arsip">Arsip Berita</a> ]
+                    <td class="py-5" width="60%">
+                        <div class="berita">
+                            <div class="judul">
+                                <p class="fw-bold">BERITA KEGIATAN</p>
                             </div>
-                        </td>
+                            @foreach ($data as $value)
+                                <div id="konten">
+                                    <div style="color: red" id="tanggal_berita">{{ $value->tanggal_berita }}</div>
+                                    <div id="judul_berita">
+                                        <a href="{{ route('beranda.show', $value->id) }}">
+                                            <h5><strong>{{ $value->judul_berita }}</strong></h5>
+                                        </a>
 
-                        <td class="py-5" style="width: 20%">
-                            <div class="pengumuman">
-                                <div class="judul">
-                                    <p class="fw-bold">PENGUMUMAN</p>
-                                </div>
-                                @foreach ($terbaru as $item)
-                                    <div id="konten_pengumuman">
-                                        <div style="color: red" id="tanggal_pengumuman">{{ $item->tanggal_pengumuman }}
-                                        </div>
-                                        <div id="isi_pengumuman">
-                                            <h6><strong>{{ $item->isi_pengumuman }}</strong></h6>
-                                        </div>
                                     </div>
-                                @endforeach
-                                <hr />
-                                [ <a href="pengumuman_arsip">Arsip Pengumuman</a> ]
+                                    <p>{{ $value->berita_singkat }}</p>
+                                    <img src="{{ asset('storage/gambar/' . $value->gambar) }}" alt="dokumentasi"
+                                        width="100%" height="400px">
+                                </div>
+                            @endforeach
+                            <hr />
+                            [ <a href="beranda_arsip">Arsip Berita</a> ]
+                        </div>
+                    </td>
+
+                    <td class="py-5" style="width: 20%">
+                        <div class="pengumuman">
+                            <div class="judul">
+                                <p class="fw-bold">PENGUMUMAN</p>
                             </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            @foreach ($terbaru as $item)
+                                <div id="konten_pengumuman">
+                                    <div style="color: red" id="tanggal_pengumuman">{{ $item->tanggal_pengumuman }}
+                                    </div>
+                                    <div id="isi_pengumuman">
+                                        <h6><strong>{{ $item->isi_pengumuman }}</strong></h6>
+                                    </div>
+                                </div>
+                            @endforeach
+                            <hr />
+                            [ <a href="pengumuman_arsip">Arsip Pengumuman</a> ]
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <div class="kontak">
+            <h4>KONTAK</h4>
+            <ul class="list-unstyled column-2">
+                <li><img src={{ asset('css/whatsapp.png') }} alt="whatsapp" width="24px">0812-3456-78910</li>
+                <li><img src={{ asset('css/google.png') }} alt="gmail" width="24px">uip-sumbagsel@pln.co.id
+                </li>
+            </ul>
         </div>
+        <div class="alamat">
+            <h4>ALAMAT</h4>
+            <ul class="list-unstyled column-2">
+                <li><img src={{ asset('css/location.png') }} alt="maps" width="24px">Jl. Residen Abdul Rozak
+                    No.2180, 2 Ilir, Kec. Kalidoni, Kota Palembang, Sumatera Selatan 30163</li>
+            </ul>
+        </div>
+    </footer>
 
-        <footer>
-            <div class="kontak">
-                <h4>KONTAK</h4>
-                <ul class="list-unstyled column-2">
-                    <li><img src={{ asset('css/whatsapp.png') }} alt="whatsapp" width="24px">0812-3456-78910</li>
-                    <li><img src={{ asset('css/google.png') }} alt="gmail" width="24px">uip-sumbagsel@pln.co.id
-                    </li>
-                </ul>
-            </div>
-            <div class="alamat">
-                <h4>ALAMAT</h4>
-                <ul class="list-unstyled column-2">
-                    <li><img src={{ asset('css/location.png') }} alt="maps" width="24px">Jl. Residen Abdul Rozak
-                        No.2180, 2 Ilir, Kec. Kalidoni, Kota Palembang, Sumatera Selatan 30163</li>
-                </ul>
-            </div>
-        </footer>
+    <script src={{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js') }}
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
+</body>
 
-        <script src={{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js') }}
-            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
-        </script>
-    </body>
-
-    </html>
+</html>
