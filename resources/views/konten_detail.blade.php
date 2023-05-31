@@ -30,7 +30,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/beranda">Beranda</a>
+                            <a class="nav-link" aria-current="page" href="/beranda">Beranda</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/profil">Profil Kami</a>
@@ -109,7 +109,7 @@
                                     <a href="/beranda/create">Berita</a>
                                 </li>
                                 <li>
-                                    <a href="/register">Tambah Akun</a>
+                                    <a href="{{ route('register') }}">Tambah Akun</a>
                                 </li>
                             </ul>
                             @endauth
@@ -127,27 +127,12 @@
                                     <div id="judul_berita">
                                         <h5><strong>{{ $konten->judul_berita }}</strong></h5>
                                     </div>
-                                    <p>{{ $konten->isi_berita }}</p>
-                                    <img src="{{ asset('storage/gambar/' . $konten->gambar) }}" alt="dokumentasi"
-                                        width="100%" height="400px">
+                                    <div id="isi_berita">{!! $konten->isi_berita !!}</div>
+                                    <img src="{{ asset('storage/gambar/' . $konten->gambar) }}" alt="dokumentasi" width="100%" height="400px">
                                 </div>
                             </article>
                         </div>
                     </td>
-
-                    {{-- <td class="py-5" style="width: 20%">
-                        <div class="pengumuman">
-                            <div class="judul">
-                                <p class="fw-bold">PENGUMUMAN</p>
-                            </div>
-                            <div id="konten_pengumuman">
-                                <div style="color: red" id="tanggal_pengumuman"></div>
-                                <div id="isi_pengumuman">
-                                    <h6><strong></strong></h6>
-                                </div>
-                            </div>
-                        </div>
-                    </td> --}}
                 </tr>
             </tbody>
         </table>
@@ -171,8 +156,11 @@
         </div>
     </footer>
 
-    <script src={{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js') }}
+    <script src="{{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js') }}"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
+    <script>
+        CKEDITOR.replace('isi_berita');
     </script>
 </body>
 

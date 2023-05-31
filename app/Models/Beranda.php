@@ -15,5 +15,6 @@ protected $table = 'kontens';
         'tanggal_berita',
         'isi_berita',
         'gambar',
+        'created_by',
     ];
 }

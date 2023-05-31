@@ -3,6 +3,7 @@
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BerandaController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/beranda');
 });
+Route::post('/loginstore', function (Request $request) {
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect('/beranda');
+    }
+
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ])->onlyInput('email');
+    
+})->name('login.store');
 
 
 // Route::get('/beranda', function () {
@@ -37,6 +54,8 @@ Route::get('/', function () {
         
 Route::resource('beranda', BerandaController::class);
 Route::resource('pengumuman', PengumumanController::class);
+Route::get('beranda_arsip', [BerandaController::class, 'berita_index']);
+Route::get('pengumuman_arsip', [PengumumanController::class, 'index']);
 
 Route::get('/profil', function () {
     return view('profil');
@@ -52,8 +71,8 @@ Route::get('/masuk', function () {
 });
 
 Route::get('/daftar', function () {
-    return view('daftar');
-});
+    return view('auth/register');
+})->name('daftar');
 
 
 Route::get('/dashboard', function () {

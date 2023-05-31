@@ -110,7 +110,7 @@
                                         <a href="/beranda/create">Berita</a>
                                     </li>
                                     <li>
-                                        <a href="/register">Tambah Akun</a>
+                                        <a href="{{ route('daftar') }}">Tambah Akun</a>
                                     </li>
                                 </ul>
                             @endcan

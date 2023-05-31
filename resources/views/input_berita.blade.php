@@ -36,9 +36,9 @@
                             <a class="nav-link" href="/profil">Profil Kami</a>
                         </li>
                         @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://datastudio.withgoogle.com/">Dashboard Kinerja</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://datastudio.withgoogle.com/">Dashboard Kinerja</a>
+                            </li>
                         @endauth
                         <li class="nav-item">
                             @auth
@@ -76,13 +76,13 @@
                         <div class="atribut">
                             <h4 class="fw-bold">Selamat Datang</h4>
                             @auth
-                            <p class="text-center fw-bold">
-                                {{ auth()->user()->name }}
-                                <br>
-                                {{ auth()->user()->email }}
-                            </p>
+                                <p class="text-center fw-bold">
+                                    {{ auth()->user()->name }}
+                                    <br>
+                                    {{ auth()->user()->email }}
+                                </p>
                             @endauth
-                            <hr/>
+                            <hr />
                             <div class="judul">
                                 <p class="fw-bold">ATRIBUT</p>
                             </div>
@@ -98,20 +98,20 @@
                                 </li>
                             </ul><br>
                             @auth
-                            <div class="judul">
-                                <p class="fw-bold">UPDATE INFORMASI</p>
-                            </div>
-                            <ul>
-                                <li>
-                                    <a href="/input_pengumuman">Pengumuman</a>
-                                </li>
-                                <li>
-                                    <a href="/beranda/create">Berita</a>
-                                </li>
-                                <li>
-                                    <a href="/register">Tambah Akun</a>
-                                </li>
-                            </ul>
+                                <div class="judul">
+                                    <p class="fw-bold">UPDATE INFORMASI</p>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <a href="/input_pengumuman">Pengumuman</a>
+                                    </li>
+                                    <li>
+                                        <a href="/beranda/create">Berita</a>
+                                    </li>
+                                    <li>
+                                        <a href="/register">Tambah Akun</a>
+                                    </li>
+                                </ul>
                             @endauth
                         </div>
                     </td>
@@ -122,8 +122,8 @@
                                 <p class="fw-bold">BERITA</p>
                             </div>
                             <div id="konten"><br>
-                                <form action="{{ route('beranda.store') }}" method="POST"
-                                    enctype="multipart/form-data">
+                                <form action="{{ route('beranda.store') }}" method="POST" enctype="multipart/form-data"
+                                    onsubmit="return validateForm()">
                                     @csrf
                                     <h5><strong>Tanggal Terbit</strong></h5>
                                     <input type="date" name="tanggal_berita" id="tanggal_berita" required>
@@ -132,7 +132,7 @@
                                     <h5><strong>Berita Singkat</strong></h5>
                                     <input type="text" name="berita_singkat" required>
                                     <h5><strong>Isi Berita Kegiatan</strong></h5>
-                                    <textarea rows="10" cols="100" class="span12" name="isi_berita" required></textarea>
+                                    <textarea rows="10" cols="100" class="span12" name="isi_berita" id="editor"></textarea>
                                     <h5><strong>Dokumentasi</strong></h5>
                                     <input type="file" name="gambar" multiple required><br>
                                     <button type="reset" class="btn btn-transparent">Kembali</button>
@@ -163,8 +163,26 @@
         </div>
     </footer>
 
-    <script src={{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js') }}
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
+    <script>
+        function validateForm() {
+            var editorData = CKEditor.instances.editor.getData();
+            if (!editorData || editorData.trim() === '') {
+                alert('Isi Berita Kegiatan harus diisi.');
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 </body>
 

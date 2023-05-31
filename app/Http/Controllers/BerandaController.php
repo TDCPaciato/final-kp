@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Beranda;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\Cast\String_;
 
 class BerandaController extends Controller
@@ -19,6 +20,14 @@ class BerandaController extends Controller
         $data=Beranda::latest()->take(5)->get();
         $terbaru = Pengumuman::latest()->take(5)->get();
         return view('konten')->with('data', $data)->with('terbaru', $terbaru); 
+    }
+
+    public function berita_index()
+    {
+        $data=Beranda::all();
+        return view('beranda_arsip', [
+            'data' => $data,
+        ]); 
     }
 
     /**
@@ -54,6 +63,7 @@ class BerandaController extends Controller
         $beranda->tanggal_berita = $validated['tanggal_berita'];
         $beranda->isi_berita = $validated['isi_berita'];
         $beranda->gambar = $nama_file;
+        $beranda->created_by = Auth::id();
         $beranda->save();
 
         return redirect(route('beranda.index'));

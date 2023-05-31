@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pengumuman;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PengumumanController extends Controller
 {
@@ -14,7 +15,7 @@ class PengumumanController extends Controller
     public function index()
     {
         $data=Pengumuman::latest()->get();
-        return view('pengumuman')->with('data', $data);
+        return view('pengumuman_arsip')->with('terbaru', $data);
     }
 
     
@@ -36,6 +37,8 @@ class PengumumanController extends Controller
             'tanggal_pengumuman' => 'required|string',
             'isi_pengumuman'=> 'required|string',
             ]);
+        
+        $validated['created_by'] = Auth::id();
     
             Pengumuman::create($validated);
             return redirect(route('beranda.index'));
