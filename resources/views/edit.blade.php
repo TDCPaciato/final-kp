@@ -109,7 +109,7 @@
                                         <a href="/beranda/create">Berita</a>
                                     </li>
                                     <li>
-                                        <a href="/register">Tambah Akun</a>
+                                        <a href="{{ route('register') }}">Tambah Akun</a>
                                     </li>
                                 </ul>
                             @endauth

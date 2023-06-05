@@ -19,7 +19,8 @@ class AdminPolicy
     {
         // Periksa apakah pengguna memiliki hak akses untuk melihat informasi admin
         return $user->isAdmin() || in_array($user->email, [
-            'admin@gmail.com'
+            'admin@gmail.com',
+            'eka.fretinavilam@gmail.com'
         ]);
     }
 }
