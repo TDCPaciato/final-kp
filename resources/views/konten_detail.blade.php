@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href={{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css') }}
+    <link href="{{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css') }}"
         rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
         crossorigin="anonymous">
-    <link rel="stylesheet" href={{ asset('css/style.css') }}>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <title>PLN UIP Sumbagsel | Beranda</title>
 </head>
 
@@ -18,7 +18,7 @@
         <nav class="navbar navbar-expand-lg" style="background-color: #B3CEFF">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/beranda">
-                    <img src={{ asset('css/logo.png') }} alt="Logo" width="30" height="30"
+                    <img src="{{ asset('css/logo.png') }}" alt="Logo" width="30" height="30"
                         class="d-inline-block align-text-top">
                     PLN UIP Sumbagsel
                 </a>
@@ -37,7 +37,7 @@
                         </li>
                         @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="https://datastudio.withgoogle.com/">Dashboard Kinerja</a>
+                            <a class="nav-link" href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard Kinerja</a>
                         </li>
                         @endauth
                         <li class="nav-item">
@@ -88,7 +88,7 @@
                             </div>
                             <ul>
                                 <li>
-                                    <a href="https://sap.com/">SAP Logon</a>
+                                    <a href="http://erpappw1.pusat.corp.pln.co.id/irj/portal">SAP Logon</a>
                                 </li>
                                 <li>
                                     <a href="https://portal.pln.co.id/">Portal PLN</a>
@@ -97,7 +97,7 @@
                                     <a href="https://mail.google.com/">Gmail</a>
                                 </li>
                             </ul><br>
-                            @auth
+                            @can('view_informasi', auth()->user())
                             <div class="judul">
                                 <p class="fw-bold">UPDATE INFORMASI</p>
                             </div>
@@ -112,7 +112,7 @@
                                     <a href="{{ route('register') }}">Tambah Akun</a>
                                 </li>
                             </ul>
-                            @endauth
+                            @endcan
                         </div>
                     </td>
 
@@ -123,14 +123,29 @@
                             </div>
                             <article class="mb-5">
                                 <div id="konten_berita">
-                                    <div style="color: red" id="tanggal_berita">{{ $konten->tanggal_berita }}</div>
-                                    <div id="judul_berita">
-                                        <h5><strong>{{ $konten->judul_berita }}</strong></h5>
-                                    </div>
-                                    <div id="isi_berita">{!! $konten->isi_berita !!}</div>
-                                    <img src="{{ asset('storage/gambar/' . $konten->gambar) }}" alt="dokumentasi" width="100%" height="400px">
-                                </div>
-                            </article>
+                                    @if ($konten)
+                                        <div style="color: red" id="tanggal_berita">{{ $konten->tanggal_berita }}</div>
+                                        <div id="judul_berita">
+                                            <h5><strong>{{ $konten->judul_berita }}</strong></h5>
+                                        </div>
+                                        <div id="isi_berita">{!! $konten->isi_berita !!}</div>
+                                        <img src="{{ asset('storage/gambar/' . $konten->gambar) }}" alt="dokumentasi" width="100%" height="400px">
+                                        @can('view_informasi', auth()->user())
+                                        <div class="d-flex justify-content align-items-center">
+                                            <form method="POST" action="{{ route('beranda.destroy', $konten->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger me-2">Hapus</button>
+                                            </form>
+                                            <button class="btn btn-info" onclick="location.href='{{ route('beranda.edit', $konten->id) }}'">Edit</button>
+                                        </div>
+                                        @endcan
+                                        @else
+                                        <p>Tidak ada konten yang tersedia.</p>
+                                        @endif
+                                        </div>
+                                        </article>
+                                                                                
                         </div>
                     </td>
                 </tr>
@@ -142,15 +157,15 @@
         <div class="kontak">
             <h4>KONTAK</h4>
             <ul class="list-unstyled column-2">
-                <li><img src={{ asset('css/whatsapp.png') }} alt="whatsapp" width="24px">0812-3456-78910</li>
-                <li><img src={{ asset('css/google.png') }} alt="gmail" width="24px">uip-sumbagsel@pln.co.id
+                <li><img src="{{ asset('css/whatsapp.png') }}" alt="whatsapp" width="24px">0812-3456-78910</li>
+                <li><img src="{{ asset('css/google.png') }}" alt="gmail" width="24px">uip-sumbagsel@pln.co.id
                 </li>
             </ul>
         </div>
         <div class="alamat">
             <h4>ALAMAT</h4>
             <ul class="list-unstyled column-2">
-                <li><img src={{ asset('css/location.png') }} alt="maps" width="24px">Jl. Residen Abdul Rozak
+                <li><img src="{{ asset('css/location.png') }}" alt="maps" width="24px">Jl. Residen Abdul Rozak
                     No.2180, 2 Ilir, Kec. Kalidoni, Kota Palembang, Sumatera Selatan 30163</li>
             </ul>
         </div>

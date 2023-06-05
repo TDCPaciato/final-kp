@@ -38,7 +38,7 @@
                         @auth
                             <li class="nav-item">
 
-                                <a class="nav-link" href="https://datastudio.withgoogle.com/">Dashboard Kinerja</a>
+                                <a class="nav-link" href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard Kinerja</a>
                             </li>
                         @endauth
                         <li class="nav-item">
@@ -89,7 +89,7 @@
                             </div>
                             <ul>
                                 <li>
-                                    <a href="https://sap.com/">SAP Logon</a>
+                                    <a href="http://erpappw1.pusat.corp.pln.co.id/irj/portal">SAP Logon</a>
                                 </li>
                                 <li>
                                     <a href="https://portal.pln.co.id/">Portal PLN</a>
@@ -131,9 +131,9 @@
                                         </a>
 
                                     </div>
-                                    <p>{{ $value->berita_singkat }}</p>
-                                    <img src="{{ asset('storage/gambar/' . $value->gambar) }}" alt="dokumentasi"
-                                        width="100%" height="400px">
+                                    <p>{!! substr($value->isi_berita, 0, 200) !!}{{ strlen($value->isi_berita) > 200 ? "..." : "" }}</p>
+                                    {{-- <img src="{{ asset('storage/gambar/' . $value->gambar) }}" alt="dokumentasi" width="100%" height="400px"> --}}
+
                                 </div>
                             @endforeach
                             <hr />

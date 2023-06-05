@@ -11,7 +11,6 @@ class Beranda extends Model
 protected $table = 'kontens';
     protected $fillable = [
         'judul_berita',
-        'berita_singkat',
         'tanggal_berita',
         'isi_berita',
         'gambar',

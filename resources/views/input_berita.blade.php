@@ -37,7 +37,7 @@
                         </li>
                         @auth
                             <li class="nav-item">
-                                <a class="nav-link" href="https://datastudio.withgoogle.com/">Dashboard Kinerja</a>
+                                <a class="nav-link" href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard Kinerja</a>
                             </li>
                         @endauth
                         <li class="nav-item">
@@ -88,7 +88,7 @@
                             </div>
                             <ul>
                                 <li>
-                                    <a href="https://sap.com/">SAP Logon</a>
+                                    <a href="http://erpappw1.pusat.corp.pln.co.id/irj/portal">SAP Logon</a>
                                 </li>
                                 <li>
                                     <a href="https://portal.pln.co.id/">Portal PLN</a>
@@ -122,22 +122,19 @@
                                 <p class="fw-bold">BERITA</p>
                             </div>
                             <div id="konten"><br>
-                                <form action="{{ route('beranda.store') }}" method="POST" enctype="multipart/form-data"
-                                    onsubmit="return validateForm()">
+                                <form action="{{ route('beranda.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                                     @csrf
                                     <h5><strong>Tanggal Terbit</strong></h5>
                                     <input type="date" name="tanggal_berita" id="tanggal_berita" required>
                                     <h5><strong>Judul Kegiatan</strong></h5>
                                     <input type="text" name="judul_berita" required>
-                                    <h5><strong>Berita Singkat</strong></h5>
-                                    <input type="text" name="berita_singkat" required>
                                     <h5><strong>Isi Berita Kegiatan</strong></h5>
                                     <textarea rows="10" cols="100" class="span12" name="isi_berita" id="editor"></textarea>
                                     <h5><strong>Dokumentasi</strong></h5>
-                                    <input type="file" name="gambar" multiple required><br>
+                                    <input type="file" name="gambar" accept="image/*" required><br>
                                     <button type="reset" class="btn btn-transparent">Kembali</button>
                                     <button type="submit" class="btn btn-info">Kirim</button>
-                                </form>
+                                </form>                                
                             </div>
                         </div>
                     </td>
@@ -163,23 +160,25 @@
         </div>
     </footer>
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
     <script>
         function validateForm() {
-            var editorData = CKEditor.instances.editor.getData();
+            var editorData = editorInstance.getData();
             if (!editorData || editorData.trim() === '') {
                 alert('Isi Berita Kegiatan harus diisi.');
                 return false;
             }
             return true;
         }
-    </script>
-    <script>
+
         ClassicEditor
             .create(document.querySelector('#editor'))
+            .then(editor => {
+                editorInstance = editor;
+            })
             .catch(error => {
                 console.error(error);
             });

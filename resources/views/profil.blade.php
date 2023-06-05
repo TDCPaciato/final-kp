@@ -37,7 +37,7 @@
                         </li>
                         @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="https://datastudio.withgoogle.com/">Dashboard Kinerja</a>
+                            <a class="nav-link" href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard Kinerja</a>
                         </li>
                         @endauth
                         <li class="nav-item">
@@ -88,7 +88,7 @@
                             </div>
                             <ul>
                                 <li>
-                                    <a href="https://sap.com/">SAP Logon</a>
+                                    <a href="http://erpappw1.pusat.corp.pln.co.id/irj/portal">SAP Logon</a>
                                 </li>
                                 <li>
                                     <a href="https://portal.pln.co.id/">Portal PLN</a>
@@ -97,7 +97,7 @@
                                     <a href="https://mail.google.com/">Gmail</a>
                                 </li>
                             </ul><br>
-                            @auth
+                            @can('view_informasi', auth()->user())
                             <div class="judul">
                                 <p class="fw-bold">UPDATE INFORMASI</p>
                             </div>
@@ -112,7 +112,7 @@
                                     <a href="/register">Tambah Akun</a>
                                 </li>
                             </ul>
-                            @endauth
+                            @endcan
                         </div>
                     </td>
                     <td class="py-5" width="80%">

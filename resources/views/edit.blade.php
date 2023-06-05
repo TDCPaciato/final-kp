@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href={{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css') }}
+    <link href="{{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css') }}"
         rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
         crossorigin="anonymous">
-    <link rel="stylesheet" href={{ asset('css/style.css') }}>
-    <title>PLN UIP Sumbagsel | Pengumuman</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <title>PLN UIP Sumbagsel | Edit Informasi Berita</title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
         <nav class="navbar navbar-expand-lg" style="background-color: #B3CEFF">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/beranda">
-                    <img src={{ asset('css/logo.png') }} alt="Logo" width="30" height="30"
+                    <img src="{{ asset('css/logo.png') }}" alt="Logo" width="30" height="30"
                         class="d-inline-block align-text-top">
                     PLN UIP Sumbagsel
                 </a>
@@ -36,9 +36,9 @@
                             <a class="nav-link" href="/profil">Profil Kami</a>
                         </li>
                         @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard Kinerja</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard Kinerja</a>
+                            </li>
                         @endauth
                         <li class="nav-item">
                             @auth
@@ -115,22 +115,29 @@
                             @endauth
                         </div>
                     </td>
-
+    
                     <td class="py-5" width="80%">
                         <div class="berita">
                             <div class="judul">
-                                <p class="fw-bold">PENGUMUMAN</p>
+                                <p class="fw-bold">BERITA</p>
                             </div>
                             <div id="konten"><br>
-                                <form action="{{ route('pengumuman.store') }}" method="POST"
-                                    enctype="multipart/form-data">
+                                <form action="{{ route('beranda.update', $berita->id) }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                                     @csrf
+                                    @method('PUT')
                                     <h5><strong>Tanggal Terbit</strong></h5>
-                                    <input type="date" name="tanggal_pengumuman" required>
-                                    <h5><strong>Judul Pengumuman</strong></h5>
-                                    <textarea rows="3" name="isi_pengumuman" required></textarea><br>
+                                    <input type="date" name="tanggal_berita" id="tanggal_berita"
+                                        value="{{ $berita->tanggal_berita }}" required>
+                                    <h5><strong>Judul Kegiatan</strong></h5>
+                                    <input type="text" name="judul_berita" value="{{ $berita->judul_berita }}"
+                                        required>
+                                    <h5><strong>Isi Berita Kegiatan</strong></h5>
+                                    <textarea rows="10" cols="100" class="span12" name="isi_berita"
+                                        id="editor">{{ $berita->isi_berita }}</textarea>
+                                    <h5><strong>Dokumentasi</strong></h5>
+                                    <input type="file" name="gambar" multiple><br>
                                     <button type="reset" class="btn btn-transparent">Kembali</button>
-                                    <button type="submit" class="btn btn-info">Kirim</button>
+                                    <button type="submit" class="btn btn-info">Perbarui</button>
                                 </form>
                             </div>
                         </div>
@@ -144,21 +151,39 @@
         <div class="kontak">
             <h4>KONTAK</h4>
             <ul class="list-unstyled column-2">
-                <li><img src={{ asset('css/whatsapp.png') }} alt="whatsapp" width="24px">0812-3456-78910</li>
-                <li><img src={{ asset('css/google.png') }} alt="gmail" width="24px">uip-sumbagsel@pln.co.id</li>
+                <li><img src="{{ asset('css/whatsapp.png') }}" alt="whatsapp" width="24px">0812-3456-78910</li>
+                <li><img src="{{ asset('css/google.png') }}" alt="gmail" width="24px">uip-sumbagsel@pln.co.id</li>
             </ul>
         </div>
         <div class="alamat">
             <h4>ALAMAT</h4>
             <ul class="list-unstyled column-2">
-                <li><img src={{ asset('css/location.png') }} alt="maps" width="24px">Jl. Residen Abdul Rozak
+                <li><img src="{{ asset('css/location.png') }}" alt="maps" width="24px">Jl. Residen Abdul Rozak
                     No.2180, 2 Ilir, Kec. Kalidoni, Kota Palembang, Sumatera Selatan 30163</li>
             </ul>
         </div>
     </footer>
 
-    <script src={{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js') }}
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
+    <script>
+        function validateForm() {
+            var editorData = CKEditor.instances.editor.getData();
+            if (!editorData || editorData.trim() === '') {
+                alert('Isi Berita Kegiatan harus diisi.');
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 </body>
 

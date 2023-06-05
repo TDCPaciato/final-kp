@@ -56,6 +56,8 @@ Route::resource('beranda', BerandaController::class);
 Route::resource('pengumuman', PengumumanController::class);
 Route::get('beranda_arsip', [BerandaController::class, 'berita_index']);
 Route::get('pengumuman_arsip', [PengumumanController::class, 'index']);
+Route::get('/beranda/{konten}/edit', [BerandaController::class, 'edit'])->name('beranda.edit');
+Route::put('/beranda/{konten}', [BerandaController::class, 'update'])->name('beranda.update');
 
 Route::get('/profil', function () {
     return view('profil');
@@ -64,7 +66,6 @@ Route::get('/profil', function () {
 Route::get('/input_pengumuman', function () {
     return view('input_pengumuman');
 });
-
 
 Route::get('/masuk', function () {
     return view('auth/login');

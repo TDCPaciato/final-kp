@@ -8,6 +8,7 @@ use App\Models\Beranda;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Expr\Cast\String_;
 
 class BerandaController extends Controller
@@ -45,7 +46,6 @@ class BerandaController extends Controller
     {        
         $validated = $request->validate([
         'judul_berita' => 'required|string',
-        'berita_singkat'=> 'required|string',
         'tanggal_berita'=> 'required|string',
         'isi_berita'=> 'required|string',
         'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|file|max:5000',
@@ -59,7 +59,6 @@ class BerandaController extends Controller
         // str_replace("public","storage",$gambarPath);
         $beranda = new Beranda();
         $beranda->judul_berita = $validated['judul_berita'];
-        $beranda->berita_singkat = $validated['berita_singkat'];
         $beranda->tanggal_berita = $validated['tanggal_berita'];
         $beranda->isi_berita = $validated['isi_berita'];
         $beranda->gambar = $nama_file;
@@ -81,24 +80,75 @@ class BerandaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Beranda $konten)
+    public function edit($id)
     {
-        //
+        $konten = Beranda::find($id);
+        return view('edit')->with('berita', $konten);
     }
-
+    
+    
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Beranda $konten)
+    public function update(Request $request, String $id)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'tanggal_berita' => 'required',
+            'judul_berita' => 'required',
+            'isi_berita' => 'required',
+        ]);
+    
+        $konten = Beranda::find($id);
+
+        // Update data berita
+        $konten->tanggal_berita = $request->tanggal_berita;
+        $konten->judul_berita = $request->judul_berita;
+        $konten->isi_berita = $request->isi_berita;
+    
+        // Cek apakah ada file gambar yang diunggah
+        if ($request->hasFile('gambar')) {
+            // Validasi file gambar
+            $request->validate([
+                'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+    
+            // Simpan file gambar yang diunggah
+            $gambarPath = $request->file('gambar')->store('public/gambar');
+    
+            // Ambil nama file gambar
+            $gambarNama = basename($gambarPath);
+    
+            // Update nama gambar pada data berita
+            $konten->gambar = $gambarNama;
+        }
+    
+        // Simpan perubahan data berita
+        $konten->save();
+    
+        // Redirect ke halaman beranda atau halaman detail berita
+        return redirect('/beranda')->with('success', 'Berita berhasil diperbarui.');
     }
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Beranda $konten)
+    public function destroy(String $id)
     {
-        //
+        // Mengecek otorisasi untuk menghapus berita
+        // $this->authorize('delete', $konten);
+        $konten=Beranda::find($id);
+    
+        // dd($konten);
+        // Menghapus berita dari database
+        $konten->delete();
+    
+        // Menghapus gambar terkait (jika ada)
+        Storage::delete('public/gambar/' . $konten->gambar);
+    
+        // Mengembalikan pengguna ke halaman beranda
+        return redirect('/beranda')->with('success', 'Berita berhasil dihapus');
     }
+    
 }

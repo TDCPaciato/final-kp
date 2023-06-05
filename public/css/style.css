@@ -49,12 +49,22 @@
     .berita {
         background-color: #F2F2F8;
         margin-top: 30px;
-        padding-bottom: 20px;
-        padding-left: 15px;
-        padding-top: 20px;
-        padding-right: 10px;
         margin-right: 10px;
         margin-left: 10px;
+        padding-top: 20px;
+        padding-right: 10px;
+        padding-left: 15px;
+        padding-bottom: 20px;
+    }
+
+    .berita_detail {
+        background-color: #F2F2F8;
+        margin-top: 30px;
+        margin-right: 10px;
+        margin-left: 10px;
+        padding-top: 20px;
+        padding-right: 10px;
+        padding-left: 15px;
     }
 
     .berita .judul {
