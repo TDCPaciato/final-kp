@@ -28,7 +28,7 @@
         <div class="col">
             <div class="masuk">
                 <x-guest-layout>
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('postRegister') }}">
                         @csrf
 
                         <!-- Name -->

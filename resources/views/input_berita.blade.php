@@ -109,7 +109,7 @@
                                         <a href="/beranda/create">Berita</a>
                                     </li>
                                     <li>
-                                        <a href="/register">Tambah Akun</a>
+                                        <a href="{{ route('register') }}">Tambah Akun</a>
                                     </li>
                                 </ul>
                             @endauth
@@ -131,7 +131,7 @@
                                     <h5><strong>Isi Berita Kegiatan</strong></h5>
                                     <textarea rows="10" cols="100" class="span12" name="isi_berita" id="editor"></textarea>
                                     <h5><strong>Dokumentasi</strong></h5>
-                                    <input type="file" name="gambar" accept="image/*" required><br>
+                                    <input type="file" name="gambar" accept="image/*" multiple required><br>
                                     <button type="reset" class="btn btn-transparent">Kembali</button>
                                     <button type="submit" class="btn btn-info">Kirim</button>
                                 </form>                                

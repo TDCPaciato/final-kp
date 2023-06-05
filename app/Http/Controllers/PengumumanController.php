@@ -49,7 +49,8 @@ class PengumumanController extends Controller
      */
     public function show(Pengumuman $pengumuman)
     {
-        //
+
+        return view('pengumuman_detail')->with('pengumuman', $pengumuman);
     }
 
     /**

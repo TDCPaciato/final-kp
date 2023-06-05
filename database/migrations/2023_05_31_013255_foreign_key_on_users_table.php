@@ -19,6 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
         });
+        Schema::table('foto', function (Blueprint $table) {
+            $table->foreign('konten_id')->references('id')->on('kontens');
+        });
         
     }
 

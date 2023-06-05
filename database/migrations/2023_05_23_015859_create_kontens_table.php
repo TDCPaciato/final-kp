@@ -16,8 +16,7 @@ return new class extends Migration
             $table->date('tanggal_berita')->nullable();
             $table->string('judul_berita');
             // $table->text('berita_singkat');
-            $table->text('isi_berita');
-            $table->string('gambar');       
+            $table->text('isi_berita');  
             $table->timestamps();
         });
     }

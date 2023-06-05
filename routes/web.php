@@ -71,33 +71,13 @@ Route::get('/masuk', function () {
     return view('auth/login');
 });
 
-Route::get('/daftar', function () {
+Route::get('/register', function () {
     return view('auth/register');
-})->name('daftar');
-
+})->name('register')->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware(['web', 'auth'])
-    ->group(function () {
-        Route::get('/logout-auto', function () {
-            if (session()->has('last_activity')) {
-                $inactiveTime = 60; // 5 menit dalam detik
-                $lastActivity = session('last_activity');
-                $currentTime = time();
-                $elapsedTime = $currentTime - $lastActivity;
-
-                if ($elapsedTime > $inactiveTime) {
-                    Auth::logout();
-                    session()->invalidate();
-                    session()->regenerateToken();
-                    return redirect('/login')->with('message', 'Anda telah logout karena tidak aktif');
-                }
-            }
-        });
-    });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -109,7 +109,7 @@
                                         <a href="/beranda/create">Berita</a>
                                     </li>
                                     <li>
-                                        <a href="/register">Tambah Akun</a>
+                                        <a href="{{ route('register') }}">Tambah Akun</a>
                                     </li>
                                 </ul>
                             @endauth
@@ -128,7 +128,9 @@
                                     <h5><strong>Tanggal Terbit</strong></h5>
                                     <input type="date" name="tanggal_pengumuman" required>
                                     <h5><strong>Judul Pengumuman</strong></h5>
-                                    <textarea rows="3" name="isi_pengumuman" required></textarea><br>
+                                    <input type="text" name="isi_pengumuman" required><br>
+                                    <h5><strong>Detail Pengumuman</strong></h5>
+                                    <textarea rows="10" cols="100" class="span12" name="isi_berita" id="editor"></textarea>
                                     <button type="reset" class="btn btn-transparent">Kembali</button>
                                     <button type="submit" class="btn btn-info">Kirim</button>
                                 </form>

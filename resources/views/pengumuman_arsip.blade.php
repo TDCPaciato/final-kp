@@ -36,9 +36,11 @@
                             <a class="nav-link" href="/profil">Profil Kami</a>
                         </li>
                         @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard Kinerja</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                    href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard
+                                    Kinerja</a>
+                            </li>
                         @endauth
                         <li class="nav-item">
                             @auth
@@ -76,13 +78,13 @@
                         <div class="atribut">
                             <h4 class="fw-bold">Selamat Datang</h4>
                             @auth
-                            <p class="text-center fw-bold">
-                                {{ auth()->user()->name }}
-                                <br>
-                                {{ auth()->user()->email }}
-                            </p>
+                                <p class="text-center fw-bold">
+                                    {{ auth()->user()->name }}
+                                    <br>
+                                    {{ auth()->user()->email }}
+                                </p>
                             @endauth
-                            <hr/>
+                            <hr />
                             <div class="judul">
                                 <p class="fw-bold">ATRIBUT</p>
                             </div>
@@ -98,20 +100,20 @@
                                 </li>
                             </ul><br>
                             @can('view_informasi', auth()->user())
-                            <div class="judul">
-                                <p class="fw-bold">UPDATE INFORMASI</p>
-                            </div>
-                            <ul>
-                                <li>
-                                    <a href="/input_pengumuman">Pengumuman</a>
-                                </li>
-                                <li>
-                                    <a href="/beranda/create">Berita</a>
-                                </li>
-                                <li>
-                                    <a href="/register">Tambah Akun</a>
-                                </li>
-                            </ul>
+                                <div class="judul">
+                                    <p class="fw-bold">UPDATE INFORMASI</p>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <a href="/input_pengumuman">Pengumuman</a>
+                                    </li>
+                                    <li>
+                                        <a href="/beranda/create">Berita</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('register') }}">Tambah Akun</a>
+                                    </li>
+                                </ul>
                             @endcan
                         </div>
                     </td>
@@ -125,10 +127,12 @@
                                 <div id="konten_pengumuman">
                                     <div style="color: red" id="tanggal_pengumuman">{{ $item->tanggal_pengumuman }}
                                     </div>
-                                    <div id="isi_pengumuman">
-                                        <h6><strong>{{ $item->isi_pengumuman }}</strong></h6>
-                                    </div>
+                                    <a href={{ route('pengumuman.show', $item->id) }}>
+                                        <div id="isi_pengumuman">
+                                            <h6><strong>{{ $item->isi_pengumuman }}</strong></h6>
+                                        </div>
                                 </div>
+                                </a>
                             @endforeach
 
                         </div>

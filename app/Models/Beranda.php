@@ -16,4 +16,9 @@ protected $table = 'kontens';
         'gambar',
         'created_by',
     ];
+
+    public function fotos()
+    {
+        return $this->belongsTo(Beranda::class);
+    }
 }

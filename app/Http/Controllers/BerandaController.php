@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Foto;
 use App\Models\Konten;
 use App\Http\Controllers\Controller;
 use App\Models\Beranda;
@@ -44,6 +45,7 @@ class BerandaController extends Controller
      */
     public function store(Request $request)
     {        
+        dd($request->gambar);
         $validated = $request->validate([
         'judul_berita' => 'required|string',
         'tanggal_berita'=> 'required|string',
@@ -61,9 +63,13 @@ class BerandaController extends Controller
         $beranda->judul_berita = $validated['judul_berita'];
         $beranda->tanggal_berita = $validated['tanggal_berita'];
         $beranda->isi_berita = $validated['isi_berita'];
-        $beranda->gambar = $nama_file;
         $beranda->created_by = Auth::id();
         $beranda->save();
+
+        $foto = new Foto();
+        $foto->gambar = $nama_file;
+        $foto->konten_id = $beranda->id;
+        $foto->save();
 
         return redirect(route('beranda.index'));
     }
