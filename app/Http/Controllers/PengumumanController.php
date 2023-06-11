@@ -6,6 +6,7 @@ use App\Models\Pengumuman;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PengumumanController extends Controller
 {
@@ -36,9 +37,17 @@ class PengumumanController extends Controller
         $validated = $request->validate([
             'tanggal_pengumuman' => 'required|string',
             'isi_pengumuman'=> 'required|string',
+            'detail_pengumuman' => 'required|string',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|file|max:5000'
             ]);
         
+            $ext = $request->gambar->getClientOriginalExtension();
+            $nama_file = "foto-".time().".".$ext;
+            $path = $request->gambar->storeAs("public/gambar", $nama_file);
+    
+
         $validated['created_by'] = Auth::id();
+        $validated['gambar'] = $nama_file;
     
             Pengumuman::create($validated);
             return redirect(route('beranda.index'));
@@ -56,24 +65,72 @@ class PengumumanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pengumuman $pengumuman)
+    public function edit(String $id)
     {
-        //
+        $pengumuman = Pengumuman::find($id);
+        return view('pengumuman_edit')->with('pengumuman', $pengumuman);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pengumuman $pengumuman)
+    public function update(Request $request, String $id)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'tanggal_pengumuman' => 'required',
+            'isi_pengumuman' => 'required',
+            'detail_pengumuman' => 'required',
+        ]);
+    
+        $pengumuman = Pengumuman::find($id);
+
+        // Update data berita
+        $pengumuman->tanggal_pengumuman = $request->tanggal_pengumuman;
+        $pengumuman->detail_pengumuman = $request->detail_pengumuman;
+        $pengumuman->isi_pengumuman = $request->isi_pengumuman;
+    
+        // Cek apakah ada file gambar yang diunggah
+        if ($request->hasFile('gambar')) {
+            // Validasi file gambar
+            $request->validate([
+                'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+    
+            // Simpan file gambar yang diunggah
+            $gambarPath = $request->file('gambar')->store('public/gambar');
+    
+            // Ambil nama file gambar
+            $gambarNama = basename($gambarPath);
+    
+            // Update nama gambar pada data berita
+            $pengumuman->gambar = $gambarNama;
+        }
+    
+        // Simpan perubahan data berita
+        $pengumuman->save();
+    
+        // Redirect ke halaman beranda atau halaman detail berita
+        return redirect('/beranda')->with('success', 'Berita berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pengumuman $pengumuman)
+    public function destroy(String $id)
     {
-        //
+        // Mengecek otorisasi untuk menghapus berita
+        // $this->authorize('delete', $konten);
+        $pengumuman=Pengumuman::find($id);
+    
+        // dd($konten);
+        // Menghapus berita dari database
+        $pengumuman->delete();
+    
+        // Menghapus gambar terkait (jika ada)
+        Storage::delete('public/gambar/' . $pengumuman->gambar);
+    
+        // Mengembalikan pengguna ke halaman beranda
+        return redirect('/beranda')->with('success', 'Berita berhasil dihapus');
     }
 }

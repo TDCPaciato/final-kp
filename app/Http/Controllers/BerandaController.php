@@ -26,7 +26,7 @@ class BerandaController extends Controller
 
     public function berita_index()
     {
-        $data=Beranda::all();
+        $data=Beranda::latest()->get();
         return view('beranda_arsip', [
             'data' => $data,
         ]); 
@@ -45,20 +45,12 @@ class BerandaController extends Controller
      */
     public function store(Request $request)
     {        
-        dd($request->gambar);
         $validated = $request->validate([
         'judul_berita' => 'required|string',
         'tanggal_berita'=> 'required|string',
         'isi_berita'=> 'required|string',
-        'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|file|max:5000',
         ]);
 
-        $ext = $request->gambar->getClientOriginalExtension();
-        $nama_file = "foto-".time().".".$ext;
-        $path = $request->gambar->storeAs("public/gambar", $nama_file);
-
-        // $gambarPath = $request->file('gambar')->store('public/gambar');
-        // str_replace("public","storage",$gambarPath);
         $beranda = new Beranda();
         $beranda->judul_berita = $validated['judul_berita'];
         $beranda->tanggal_berita = $validated['tanggal_berita'];
@@ -66,10 +58,33 @@ class BerandaController extends Controller
         $beranda->created_by = Auth::id();
         $beranda->save();
 
-        $foto = new Foto();
+
+        foreach($request->foto as $hehe){
+        $ext = $hehe->getClientOriginalExtension();
+        $nama_file = "foto-" . time() . "-" . uniqid() . "." . $ext;
+        $path = $hehe ->storeAs("public/gambar", $nama_file);
+                $foto = new Foto();
         $foto->gambar = $nama_file;
-        $foto->konten_id = $beranda->id;
+        $foto->konten_id=$beranda->id;
         $foto->save();
+        }
+        // $ext = $request->gambar->getClientOriginalExtension();
+        // $nama_file = "foto-".time().".".$ext;
+        // $path = $request->gambar->storeAs("public/gambar", $nama_file);
+
+        // // $gambarPath = $request->file('gambar')->store('public/gambar');
+        // // str_replace("public","storage",$gambarPath);
+        // $beranda = new Beranda();
+        // $beranda->judul_berita = $validated['judul_berita'];
+        // $beranda->tanggal_berita = $validated['tanggal_berita'];
+        // $beranda->isi_berita = $validated['isi_berita'];
+        // $beranda->created_by = Auth::id();
+        // $beranda->save();
+
+        // $foto = new Foto();
+        // $foto->gambar = $nama_file;
+        // $foto->konten_id = $beranda->id;
+        // $foto->save();
 
         return redirect(route('beranda.index'));
     }
@@ -79,8 +94,9 @@ class BerandaController extends Controller
      */
     public function show(String $id)
     {
-        $konten = Beranda::find($id);
-        return view('konten_detail')->with('konten', $konten);
+        $konten = Beranda::find($id); 
+        $fotos = Foto::where('konten_id', '=', $id)-> get();
+        return view('konten_detail')->with('konten', $konten)-> with('fotos', $fotos);
     }
 
     /**

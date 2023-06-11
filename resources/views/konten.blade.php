@@ -151,7 +151,9 @@
                                     <div style="color: red" id="tanggal_pengumuman">{{ $item->tanggal_pengumuman }}
                                     </div>
                                     <div id="isi_pengumuman">
-                                        <h6><strong>{{ $item->isi_pengumuman }}</strong></h6>
+                                        <a href="{{ route('pengumuman.show', $item->id) }}">
+                                            <h6><strong>{{ $item->isi_pengumuman }}</strong></h6>
+                                        </a>
                                     </div>
                                 </div>
                             @endforeach

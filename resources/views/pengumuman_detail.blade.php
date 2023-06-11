@@ -138,14 +138,14 @@
                                         @can('view_informasi', auth()->user())
                                             <div class="d-flex justify-content align-items-center">
                                                 <form method="POST"
-                                                    action="{{ route('beranda.destroy', $pengumuman->id) }}"
+                                                    action="{{ route('pengumuman.destroy', $pengumuman->id) }}"
                                                     onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger me-2">Hapus</button>
                                                 </form>
                                                 <button class="btn btn-info"
-                                                    onclick="location.href='{{ route('beranda.edit', $pengumuman->id) }}'">Edit</button>
+                                                    onclick="location.href='{{ route('pengumuman.edit', $pengumuman->id) }}'">Edit</button>
                                             </div>
                                         @endcan
                                     @else
