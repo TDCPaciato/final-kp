@@ -129,13 +129,15 @@
                                         <div style="color: red" id="tanggal_berita">
                                             {{ $pengumuman->tanggal_pengumuman }}</div>
                                         <div id="judul_berita">
-                                            <h5><strong>{!! $pengumuman->isi_pengumuman !!}</strong></h5>
+                                            <h3><strong>{!! $pengumuman->isi_pengumuman !!}</strong></h3>
                                         </div>
                                         <div id="isi_berita">{{ $pengumuman->detail_pengumuman }}</div>
                                         <div id="isi_berita">{{ $pengumuman->isi_berita }}</div>
+                                        @if ($pengumuman->gambar)
                                         <img src="{{ asset('storage/gambar/' . $pengumuman->gambar) }}"
                                             alt="dokumentasi" width="100%" height="400px">
-                                        @can('view_informasi', auth()->user())
+                                        @endif
+                                            @can('view_informasi', auth()->user())
                                             <div class="d-flex justify-content align-items-center">
                                                 <form method="POST"
                                                     action="{{ route('pengumuman.destroy', $pengumuman->id) }}"

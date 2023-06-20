@@ -38,16 +38,17 @@ class PengumumanController extends Controller
             'tanggal_pengumuman' => 'required|string',
             'isi_pengumuman'=> 'required|string',
             'detail_pengumuman' => 'required|string',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|file|max:5000'
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|file|max:5000'
             ]);
-        
-            $ext = $request->gambar->getClientOriginalExtension();
-            $nama_file = "foto-".time().".".$ext;
-            $path = $request->gambar->storeAs("public/gambar", $nama_file);
-    
-
-        $validated['created_by'] = Auth::id();
-        $validated['gambar'] = $nama_file;
+            
+            $validated['created_by'] = Auth::id();
+            
+            if ($request->hasFile('gambar')) {
+                $ext = $request->gambar->getClientOriginalExtension();
+                $nama_file = "foto-".time().".".$ext;
+                $path = $request->gambar->storeAs("public/gambar", $nama_file);
+                $validated['gambar'] = $nama_file;
+            }
     
             Pengumuman::create($validated);
             return redirect(route('beranda.index'));

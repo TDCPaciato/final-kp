@@ -36,9 +36,11 @@
                             <a class="nav-link" href="/profil">Profil Kami</a>
                         </li>
                         @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard Kinerja</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                    href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard
+                                    Kinerja</a>
+                            </li>
                         @endauth
                         <li class="nav-item">
                             @auth
@@ -76,13 +78,13 @@
                         <div class="atribut">
                             <h4 class="fw-bold">Selamat Datang</h4>
                             @auth
-                            <p class="text-center fw-bold">
-                                {{ auth()->user()->name }}
-                                <br>
-                                {{ auth()->user()->email }}
-                            </p>
+                                <p class="text-center fw-bold">
+                                    {{ auth()->user()->name }}
+                                    <br>
+                                    {{ auth()->user()->email }}
+                                </p>
                             @endauth
-                            <hr/>
+                            <hr />
                             <div class="judul">
                                 <p class="fw-bold">ATRIBUT</p>
                             </div>
@@ -98,20 +100,20 @@
                                 </li>
                             </ul><br>
                             @can('view_informasi', auth()->user())
-                            <div class="judul">
-                                <p class="fw-bold">UPDATE INFORMASI</p>
-                            </div>
-                            <ul>
-                                <li>
-                                    <a href="/input_pengumuman">Pengumuman</a>
-                                </li>
-                                <li>
-                                    <a href="/beranda/create">Berita</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('register') }}">Tambah Akun</a>
-                                </li>
-                            </ul>
+                                <div class="judul">
+                                    <p class="fw-bold">UPDATE INFORMASI</p>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <a href="/input_pengumuman">Pengumuman</a>
+                                    </li>
+                                    <li>
+                                        <a href="/beranda/create">Berita</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('register') }}">Tambah Akun</a>
+                                    </li>
+                                </ul>
                             @endcan
                         </div>
                     </td>
@@ -126,33 +128,38 @@
                                     @if ($konten)
                                         <div style="color: red" id="tanggal_berita">{{ $konten->tanggal_berita }}</div>
                                         <div id="judul_berita">
-                                            <h5><strong>{{ $konten->judul_berita }}</strong></h5>
+                                            <h3><strong>{{ $konten->judul_berita }}</strong></h3>
                                         </div>
-                                            <img class="mx-auto" src="{{ asset('storage/gambar/' . $fotos[0]->gambar) }}" alt="dokumentasi" width="82%" height="400px">
+                                        <img class="mx-auto" src="{{ asset('storage/gambar/' . $fotos[0]->gambar) }}"
+                                            alt="dokumentasi" width="100%" height="500px">
                                         <div id="isi_berita">{!! $konten->isi_berita !!}</div>
                                         <div class="container">
-                                            <div class="row row-cols-4 gy-4" >
-                                                @for ($x=1;$x<count($fotos); $x++)
-                                                <div class="col"> <img src="{{ asset('storage/gambar/' . $fotos[$x]->gambar) }}" alt="dokumentasi" width="100%" height="300px"></div>
+                                            <div class="row row-cols-4 gy-4">
+                                                @for ($x = 1; $x < count($fotos); $x++)
+                                                    <div class="col"> <img
+                                                            src="{{ asset('storage/gambar/' . $fotos[$x]->gambar) }}"
+                                                            alt="dokumentasi" width="100%" height="300px"></div>
                                                 @endfor
                                             </div>
                                         </div>
-                                            @can('view_informasi', auth()->user())
+                                        @can('view_informasi', auth()->user())
                                             <div class="d-flex justify-content align-items-center">
-                                            <form method="POST" action="{{ route('beranda.destroy', $konten->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger me-2">Hapus</button>
-                                            </form>
-                                            <button class="btn btn-info" onclick="location.href='{{ route('beranda.edit', $konten->id) }}'">Edit</button>
-                                        </div>
+                                                <form method="POST" action="{{ route('beranda.destroy', $konten->id) }}"
+                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger me-2">Hapus</button>
+                                                </form>
+                                                <button class="btn btn-info"
+                                                    onclick="location.href='{{ route('beranda.edit', $konten->id) }}'">Edit</button>
+                                            </div>
                                         @endcan
-                                        @else
+                                    @else
                                         <p>Tidak ada konten yang tersedia.</p>
-                                        @endif
-                                        </div>
-                                        </article>
-                                                                                
+                                    @endif
+                                </div>
+                            </article>
+
                         </div>
                     </td>
                 </tr>

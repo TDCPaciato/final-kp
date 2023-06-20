@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('pengumuman', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal_pengumuman')->nullable();
+            $table->date('tanggal_pengumuman');
             $table->text('isi_pengumuman');
             $table->string('detail_pengumuman');
-            $table->string('gambar');
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

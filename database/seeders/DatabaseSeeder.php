@@ -27,5 +27,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'eka.fretinavilam@gmail.com',
             'password' => Hash::make('12345678'),
         ]);
+
+        User::create([
+            'name' => 'Kiki Kahfi Abdul Fatah',
+            'email' => 'kikikahfi@gmail.com',
+            'password' => Hash::make('12345678'),
+        ]);
     }
 }
