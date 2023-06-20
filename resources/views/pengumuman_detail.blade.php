@@ -131,8 +131,7 @@
                                         <div id="judul_berita">
                                             <h3><strong>{!! $pengumuman->isi_pengumuman !!}</strong></h3>
                                         </div>
-                                        <div id="isi_berita">{{ $pengumuman->detail_pengumuman }}</div>
-                                        <div id="isi_berita">{{ $pengumuman->isi_berita }}</div>
+                                        <div id="isi_berita">{!! $pengumuman->detail_pengumuman !!}</div>
                                         @if ($pengumuman->gambar)
                                         <img src="{{ asset('storage/gambar/' . $pengumuman->gambar) }}"
                                             alt="dokumentasi" width="100%" height="400px">
