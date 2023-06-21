@@ -160,15 +160,18 @@ class BerandaController extends Controller
     {
         // Mengecek otorisasi untuk menghapus berita
         // $this->authorize('delete', $konten);
+
         $konten=Beranda::find($id);
-    
-        // dd($konten);
-        // Menghapus berita dari database
-        $konten->delete();
-    
+
         // Menghapus gambar terkait (jika ada)
         Storage::delete('public/gambar/' . $konten->gambar);
-    
+
+        // Menghapus entri yang terkait di tabel foto
+        Foto::where('konten_id', $konten->id)->delete();
+
+        // Menghapus berita dari database setelah menghapus entri di tabel foto
+        $konten->delete();
+
         // Mengembalikan pengguna ke halaman beranda
         return redirect('/beranda')->with('success', 'Berita berhasil dihapus');
     }
