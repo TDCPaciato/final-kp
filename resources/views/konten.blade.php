@@ -60,9 +60,12 @@
                                 <a class="nav-link{{ request()->routeIs('login') ? ' active' : '' }}"
                                     href="{{ route('login') }}">Masuk</a>
                             @endauth
-
                         </li>
                     </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                      </form>
                 </div>
             </div>
         </nav>
@@ -124,7 +127,8 @@
                             </div>
                             @foreach ($data as $value)
                                 <div id="konten">
-                                    <div style="color: red" id="tanggal_berita">{{ $value->tanggal_berita }}</div>
+                                    <div style="color: red" id="tanggal_berita">{{ $value->tanggal_berita}}</div>
+                                    {{-- format tanggal {{ date('d F Y', strtotime($value->tanggal_berita)) }} --}}
                                     <div id="judul_berita">
                                         <a href="{{ route('beranda.show', $value->id) }}">
                                             <h5><strong>{{ $value->judul_berita }}</strong></h5>
@@ -152,7 +156,7 @@
                                     </div>
                                     <div id="isi_pengumuman">
                                         <a href="{{ route('pengumuman.show', $item->id) }}">
-                                            <h6><strong>{{ $item->isi_pengumuman }}</strong></h6>
+                                            <h5><strong>{{ $item->isi_pengumuman }}</strong></h5>
                                         </a>
                                     </div>
                                 </div>

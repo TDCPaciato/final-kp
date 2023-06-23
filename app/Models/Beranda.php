@@ -13,7 +13,6 @@ protected $table = 'kontens';
         'judul_berita',
         'tanggal_berita',
         'isi_berita',
-        'gambar',
         'created_by',
     ];
 

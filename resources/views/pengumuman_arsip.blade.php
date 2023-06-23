@@ -129,7 +129,7 @@
                                     </div>
                                     <a href={{ route('pengumuman.show', $item->id) }}>
                                         <div id="isi_pengumuman">
-                                            <h6><strong>{{ $item->isi_pengumuman }}</strong></h6>
+                                            <h5><strong>{{ $item->isi_pengumuman }}</strong></h5>
                                         </div>
                                 </div>
                                 </a>

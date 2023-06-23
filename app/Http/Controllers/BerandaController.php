@@ -22,6 +22,11 @@ class BerandaController extends Controller
         $data=Beranda::latest()->take(5)->get();
         $terbaru = Pengumuman::latest()->take(5)->get();
         return view('konten')->with('data', $data)->with('terbaru', $terbaru); 
+    
+        // Mengurutkan data berdasarkan pertama kali diinputkan
+        // $data = Beranda::orderBy('created_at', 'asc')->take(5)->get();
+        // $terbaru = Pengumuman::orderBy('created_at', 'asc')->take(5)->get();
+        // return view('konten')->with('data', $data)->with('terbaru', $terbaru);
     }
 
     public function berita_index()
