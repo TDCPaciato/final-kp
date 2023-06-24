@@ -31,9 +31,14 @@ class BerandaController extends Controller
 
     public function berita_index()
     {
-        $data=Beranda::latest()->get();
+        $data=Beranda::latest();
+        
+        if(request('search')) {
+            $data->where('judul_berita', 'like', '%' . request('search') . '%');
+        }
+
         return view('beranda_arsip', [
-            'data' => $data,
+            'data' => $data->get(),
         ]); 
     }
 

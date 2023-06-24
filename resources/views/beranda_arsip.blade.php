@@ -121,6 +121,18 @@
                             <div class="judul">
                                 <p class="fw-bold">BERITA KEGIATAN</p>
                             </div>
+                            
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <form action="/beranda_arsip" method="GET">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Search..." name="search" value="{{ request('search') }}">
+                                            <button class="btn btn-info" type="submit">Search</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
                             @foreach ($data as $value)
                                 <div id="konten">
                                     <div style="color: red" id="tanggal_berita">{{ $value->tanggal_berita }}</div>
