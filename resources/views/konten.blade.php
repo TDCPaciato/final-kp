@@ -136,6 +136,11 @@
 
                                 </div>
                             @endforeach
+
+                            <div class="d-flex justify-content-center">
+                                {{ $data->links() }}
+                            </div>
+
                             <hr />
                             [ <a href="beranda_arsip">Arsip Berita</a> ]
                         </div>

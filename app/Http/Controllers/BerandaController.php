@@ -19,8 +19,8 @@ class BerandaController extends Controller
      */
     public function index()
     {
-        $data=Beranda::latest()->take(5)->get();
-        $terbaru = Pengumuman::latest()->take(5)->get();
+        $data=Beranda::latest()->paginate(5);
+        $terbaru = Pengumuman::latest()->paginate(5);
         return view('konten')->with('data', $data)->with('terbaru', $terbaru); 
     
         // Mengurutkan data berdasarkan pertama kali diinputkan

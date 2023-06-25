@@ -123,6 +123,18 @@
                             <div class="judul">
                                 <p class="fw-bold">PENGUMUMAN</p>
                             </div>
+
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <form action="/pengumuman_arsip" method="GET">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Search..." name="search" value="{{ request('search') }}">
+                                            <button class="btn btn-info" type="submit">Search</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
                             @foreach ($terbaru as $item)
                                 <div id="konten_pengumuman">
                                     <div style="color: red" id="tanggal_pengumuman">{{ $item->tanggal_pengumuman }}

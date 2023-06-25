@@ -15,8 +15,15 @@ class PengumumanController extends Controller
      */
     public function index()
     {
-        $data=Pengumuman::latest()->get();
-        return view('pengumuman_arsip')->with('terbaru', $data);
+        $data=Pengumuman::latest();
+
+        if(request('search')) {
+            $data->where('isi_pengumuman', 'like', '%' . request('search') . '%');
+        }
+
+        return view('pengumuman_arsip', [
+            'terbaru' => $data->get(),
+        ]); 
     }
 
     
