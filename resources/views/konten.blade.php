@@ -9,6 +9,7 @@
         rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
         crossorigin="anonymous">
     <link rel="stylesheet" href={{ asset('css/style.css') }}>
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"> --}}
     <title>PLN UIP Sumbagsel | Beranda</title>
 </head>
 
@@ -38,7 +39,9 @@
                         @auth
                             <li class="nav-item">
 
-                                <a class="nav-link" href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard Kinerja</a>
+                                <a class="nav-link"
+                                    href="https://lookerstudio.google.com/reporting/b19898ed-4c28-4d14-b996-f413540e300f">Dashboard
+                                    Kinerja</a>
                             </li>
                         @endauth
                         <li class="nav-item">
@@ -118,12 +121,91 @@
 
                     <td class="py-5" width="60%">
                         <div class="berita">
+                            @auth                            
+                            <div class="container">
+                                <div id="todo" class="column">
+                                    <h2>Rencana Kegiatan</h2>
+                                    <h3 id="todo-count">{{ $rencana_kegiatan }}</h3> Kegiatan <br>
+                                    <button onclick="openModal('tambah-modal')">Tambah</button>
+                                    <button onclick="openModal('detail-modal')">Detail</button>
+                                </div>
+
+                                <div id="doing" class="column">
+                                    <h2>Sedang dilakukan</h2>
+                                    <h3 id="doing-count">{{ $sedang_dilakukan }}</h3> Kegiatan <br>
+                                    <button onclick="openModal('detail-modal')">Detail</button>
+                                </div>
+
+                                <div id="done" class="column">
+                                    <h2>Sudah Dilakukan</h2>
+                                    <h3 id="done-count">{{ $sudah_dilakukan }}</h3> Kegiatan <br>
+                                    <button onclick="openModal('detail-modal')">Detail</button>
+                                </div>
+                            </div>
+
+                            <!-- Modal Tambah -->
+                            <div id="tambah-modal" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Tambah Aktivitas</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        <form action="{{ route('kegiatan.store') }}" method="POST">
+                                            @csrf                                                                              
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="judul-kegiatan" class="form-label">Judul Kegiatan</label>
+                                                    <input type="text" class="form-control" id="judul-kegiatan" name="judul_kegiatan"
+                                                    placeholder="Masukkan judul kegiatan">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="isi-kegiatan" class="form-label">Isi Kegiatan</label>
+                                                    <textarea class="form-control" id="isi-kegiatan" rows="4" placeholder="Masukkan isi kegiatan" name="isi_kegiatan"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Tutup</button>
+                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Modal Detail -->
+                            <div id="detail-modal" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Detail Aktivitas</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="column">
+                                                    <h3>{{ $kegiatan->judul_kegiatan }}</h3>
+                                                    <p>{{ $kegiatan->isi_kegiatan }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            @endauth
+
                             <div class="judul">
                                 <p class="fw-bold">BERITA KEGIATAN</p>
                             </div>
+
                             @foreach ($data as $value)
                                 <div id="konten">
-                                    <div style="color: red" id="tanggal_berita">{{ $value->tanggal_berita}}</div>
+                                    <div style="color: red" id="tanggal_berita">{{ $value->tanggal_berita }}</div>
                                     {{-- format tanggal {{ date('d F Y', strtotime($value->tanggal_berita)) }} --}}
                                     <div id="judul_berita">
                                         <a href="{{ route('beranda.show', $value->id) }}">
@@ -131,7 +213,7 @@
                                         </a>
 
                                     </div>
-                                    <p>{!! substr($value->isi_berita, 0, 200) !!}{{ strlen($value->isi_berita) > 200 ? "..." : "" }}</p>
+                                    <p>{!! substr($value->isi_berita, 0, 200) !!}{{ strlen($value->isi_berita) > 200 ? '...' : '' }}</p>
                                     {{-- <img src="{{ asset('storage/gambar/' . $value->gambar) }}" alt="dokumentasi" width="100%" height="400px"> --}}
 
                                 </div>
@@ -145,6 +227,7 @@
                             [ <a href="beranda_arsip">Arsip Berita</a> ]
                         </div>
                     </td>
+
 
                     <td class="py-5" style="width: 20%">
                         <div class="pengumuman">
@@ -189,8 +272,19 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/Sortable@1.13.0/Sortable.min.js"></script>
     <script src={{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js') }}
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
+
+    <!-- Link ke file JavaScript Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function openModal(modalId) {
+            var modal = new bootstrap.Modal(document.getElementById(modalId));
+            modal.show();
+        }
     </script>
 </body>
 

@@ -116,7 +116,7 @@
                         </div>
                     </td>
 
-                    <td class="py-5" width="80%">
+                    <td class="py-5" style="width: 80%">
                         <div class="berita">
                             <div class="judul">
                                 <p class="fw-bold">BERITA KEGIATAN</p>

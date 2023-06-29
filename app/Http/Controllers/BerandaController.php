@@ -6,6 +6,7 @@ use App\Models\Foto;
 use App\Models\Konten;
 use App\Http\Controllers\Controller;
 use App\Models\Beranda;
+use App\Models\Kegiatan;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,12 @@ class BerandaController extends Controller
     {
         $data=Beranda::latest()->paginate(5);
         $terbaru = Pengumuman::latest()->paginate(5);
-        return view('konten')->with('data', $data)->with('terbaru', $terbaru); 
+        $rencana_kegiatan = Kegiatan::where('created_by', '=', Auth::id())->where('status', '=', 0)->count();
+        $sedang_dilakukan = Kegiatan::where('created_by', '=', Auth::id())->where('status', '=', 1)->count();
+        $sudah_dilakukan = Kegiatan::where('created_by', '=', Auth::id())->where('status', '=', 2)->count();
+        $kegiatan = Kegiatan::all();
+        return view('konten')->with('data', $data)->with('terbaru', $terbaru)->with('rencana_kegiatan', $rencana_kegiatan)
+        ->with('sedang_dilakukan', $sedang_dilakukan)->with('sudah_dilakukan', $sudah_dilakukan); 
     
         // Mengurutkan data berdasarkan pertama kali diinputkan
         // $data = Beranda::orderBy('created_at', 'asc')->take(5)->get();
@@ -78,24 +84,7 @@ class BerandaController extends Controller
         $foto->konten_id=$beranda->id;
         $foto->save();
         }
-        // $ext = $request->gambar->getClientOriginalExtension();
-        // $nama_file = "foto-".time().".".$ext;
-        // $path = $request->gambar->storeAs("public/gambar", $nama_file);
-
-        // // $gambarPath = $request->file('gambar')->store('public/gambar');
-        // // str_replace("public","storage",$gambarPath);
-        // $beranda = new Beranda();
-        // $beranda->judul_berita = $validated['judul_berita'];
-        // $beranda->tanggal_berita = $validated['tanggal_berita'];
-        // $beranda->isi_berita = $validated['isi_berita'];
-        // $beranda->created_by = Auth::id();
-        // $beranda->save();
-
-        // $foto = new Foto();
-        // $foto->gambar = $nama_file;
-        // $foto->konten_id = $beranda->id;
-        // $foto->save();
-
+        
         return redirect(route('beranda.index'));
     }
 

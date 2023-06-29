@@ -3,6 +3,7 @@
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\KegiatanController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -37,34 +38,21 @@ Route::post('/loginstore', function (Request $request) {
     ])->onlyInput('email');
     
 })->name('login.store');
-
-
-// Route::get('/beranda', function () {
-    //     return view('beranda', [
-        //         "title" => "beranda",
-        //         "tanggal_berita" => "26-05-2023",
-        //         "judul_berita" => "Berita ketiga pada kolom Berita", 
-        //         "slug" => "judul-berita-pertama",
-        //         "isi_berita" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil tenetur unde suscipit explicabo aperiam dolorem est repellat, nostrum illo, deserunt non, itaque quia soluta quo. In ipsam ipsum fugiat aliquid.",
-        //         "gambar" => "css/berita_konten.png",
-        //         "tanggal_pengumuman" => "18-05-2023",
-        //         "isi_pengumuman" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil tenetur unde suscipit explicabo aperiam dolorem est repellat, nostrum illo, deserunt non"
-        //     ]);
-        // });
         
 Route::resource('beranda', BerandaController::class);
 Route::resource('pengumuman', PengumumanController::class);
+Route::resource('kegiatan', KegiatanController::class);
+Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
+Route::get('/kegiatan/{id}', [KegiatanController::class, 'show'])->name('kegiatan.show');
 Route::get('beranda_arsip', [BerandaController::class, 'berita_index']);
 Route::get('pengumuman_arsip', [PengumumanController::class, 'index']);
+Route::get('/input_pengumuman', [PengumumanController::class, 'create'])->name('pengumuman.create')->middleware('auth');
+Route::get('/beranda/create', [BerandaController::class, 'create'])->name('beranda.create')->middleware('auth');
 Route::get('/beranda/{konten}/edit', [BerandaController::class, 'edit'])->name('beranda.edit');
 Route::put('/beranda/{konten}', [BerandaController::class, 'update'])->name('beranda.update');
 
 Route::get('/profil', function () {
     return view('profil');
-});
-
-Route::get('/input_pengumuman', function () {
-    return view('input_pengumuman');
 });
 
 Route::get('/masuk', function () {
