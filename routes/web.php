@@ -4,6 +4,7 @@ use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\KegiatanController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -38,12 +39,10 @@ Route::post('/loginstore', function (Request $request) {
     ])->onlyInput('email');
     
 })->name('login.store');
-        
+
 Route::resource('beranda', BerandaController::class);
 Route::resource('pengumuman', PengumumanController::class);
-Route::resource('kegiatan', KegiatanController::class);
-Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
-Route::get('/kegiatan/{id}', [KegiatanController::class, 'show'])->name('kegiatan.show');
+
 Route::get('beranda_arsip', [BerandaController::class, 'berita_index']);
 Route::get('pengumuman_arsip', [PengumumanController::class, 'index']);
 Route::get('/input_pengumuman', [PengumumanController::class, 'create'])->name('pengumuman.create')->middleware('auth');
@@ -72,5 +71,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::resource('kegiatan', KegiatanController::class);
+Route::get('/kegiatan/{id}', 'KegiatanController@show');
+Route::get('/kegiatan/{id}', [KegiatanController::class, 'index']);
+Route::put('/kegiatan/{id}', [KegiatanController::class, 'update'])->name('kegiatan.update');
+Route::post('/kegiatan/update-status', [KegiatanController::class, 'updateStatus'])->name('kegiatan.update-status');
+
+
+
 
 require __DIR__.'/auth.php';

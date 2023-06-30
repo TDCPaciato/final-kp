@@ -10,6 +10,16 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href={{ asset('css/style.css') }}>
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"> --}}
+    <style>
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            }
+
+        .button-container button {
+            margin-right: 10px;
+        }
+    </style>
     <title>PLN UIP Sumbagsel | Beranda</title>
 </head>
 
@@ -116,69 +126,70 @@
                                     </li>
                                 </ul>
                             @endcan
-
                     </td>
 
                     <td class="py-5" width="60%">
                         <div class="berita">
-                            @auth                            
+                            @auth
                             <div class="container">
                                 <div id="todo" class="column">
                                     <h2>Rencana Kegiatan</h2>
-                                    <h3 id="todo-count">{{ $rencana_kegiatan }}</h3> Kegiatan <br>
-                                    <button onclick="openModal('tambah-modal')">Tambah</button>
-                                    <button onclick="openModal('detail-modal')">Detail</button>
+                                    <h3 id="todo-count">{{ $rencana_kegiatan }}</h3>
+                                    Kegiatan <br>
+                                    <div class="button-container">
+                                        <button onclick="openModal('tambah-modal')">Tambah</button>
+                                        <button onclick="openModal('detail-modal-tambah')">Detail</button>
+                                    </div>
                                 </div>
-
+                    
                                 <div id="doing" class="column">
                                     <h2>Sedang dilakukan</h2>
-                                    <h3 id="doing-count">{{ $sedang_dilakukan }}</h3> Kegiatan <br>
-                                    <button onclick="openModal('detail-modal')">Detail</button>
+                                    <h3 id="doing-count">{{ $sedang_dilakukan }}</h3>
+                                    Kegiatan <br>
+                                    <button onclick="openModal('detail-modal-sedang')">Detail</button>
                                 </div>
-
+                    
                                 <div id="done" class="column">
                                     <h2>Sudah Dilakukan</h2>
-                                    <h3 id="done-count">{{ $sudah_dilakukan }}</h3> Kegiatan <br>
-                                    <button onclick="openModal('detail-modal')">Detail</button>
+                                    <h3 id="done-count">{{ $sudah_dilakukan }}</h3>
+                                    Kegiatan <br>
+                                    <button onclick="openModal('detail-modal-sudah')">Detail</button>
                                 </div>
                             </div>
-
+                    
                             <!-- Modal Tambah -->
                             <div id="tambah-modal" class="modal fade" tabindex="-1">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Tambah Aktivitas</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-
                                         <form action="{{ route('kegiatan.store') }}" method="POST">
-                                            @csrf                                                                              
+                                            @csrf
                                             <div class="modal-body">
                                                 <div class="mb-3">
                                                     <label for="judul-kegiatan" class="form-label">Judul Kegiatan</label>
                                                     <input type="text" class="form-control" id="judul-kegiatan" name="judul_kegiatan"
-                                                    placeholder="Masukkan judul kegiatan">
+                                                        placeholder="Masukkan judul kegiatan">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="isi-kegiatan" class="form-label">Isi Kegiatan</label>
-                                                    <textarea class="form-control" id="isi-kegiatan" rows="4" placeholder="Masukkan isi kegiatan" name="isi_kegiatan"></textarea>
+                                                    <textarea class="form-control" id="isi-kegiatan" rows="4"
+                                                        placeholder="Masukkan isi kegiatan" name="isi_kegiatan"></textarea>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Tutup</button>
-                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Simpan</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-
-
-                            <!-- Modal Detail -->
-                            <div id="detail-modal" class="modal fade" tabindex="-1">
+                    
+                            <!-- Modal Detail Rencana -->
+                            <div id="detail-modal-tambah" class="modal fade" tabindex="-1">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -186,47 +197,122 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="column">
-                                                    <h3>{{ $kegiatan->judul_kegiatan }}</h3>
-                                                    <p>{{ $kegiatan->isi_kegiatan }}</p>
-                                            </div>
+                                            @if ($rencana_kegiatan > 0 && count($rencana) > 0)
+                                                @foreach ($rencana as $item)
+                                                <div class="row column">
+                                                    <div class="col-7">
+                                                        <h5>{{ $item->judul_kegiatan }}</h5>
+                                                        <p>{{ $item->isi_kegiatan }}</p>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button class="btn btn-sm btn-info" data-bs-dismiss="modal" aria-label="Close" onclick="updateStatusKegiatan(1, {{ $item->id }})">
+                                                            Pindah
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            @else
+                                                <p>Tidak ada kegiatan yang tersedia.</p>
+                                            @endif
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
+                    
+                            <!-- Modal Detail Sedang -->
+                            <div id="detail-modal-sedang" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Detail Aktivitas</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @if ($sedang_dilakukan > 0 && count($sedang) > 0)
+                                                @foreach ($sedang as $item)
+                                                <div class="row column">
+                                                    <div class="col-7">
+                                                        <h3>{{ $item->judul_kegiatan }}</h3>
+                                                        <p>{{ $item->isi_kegiatan }}</p>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button class="btn btn-sm btn-info" data-bs-dismiss="modal" aria-label="Close" onclick="updateStatusKegiatan(2, {{ $item->id }})">
+                                                            Pindah
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            @else
+                                                <p>Tidak ada kegiatan yang tersedia.</p>
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <!-- Modal Detail Sudah -->
+                            <div id="detail-modal-sudah" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Detail Aktivitas</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @if ($sudah_dilakukan > 0 && count($sudah) > 0)
+                                                @foreach ($sudah as $item)
+                                                <div class="row column">
+                                                    <div class="col-7">
+                                                        <h3>{{ $item->judul_kegiatan }}</h3>
+                                                        <p>{{ $item->isi_kegiatan }}</p>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            @else
+                                                <p>Tidak ada kegiatan yang tersedia.</p>
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             @endauth
-
+                    
                             <div class="judul">
                                 <p class="fw-bold">BERITA KEGIATAN</p>
                             </div>
-
+                    
                             @foreach ($data as $value)
-                                <div id="konten">
-                                    <div style="color: red" id="tanggal_berita">{{ $value->tanggal_berita }}</div>
-                                    {{-- format tanggal {{ date('d F Y', strtotime($value->tanggal_berita)) }} --}}
-                                    <div id="judul_berita">
-                                        <a href="{{ route('beranda.show', $value->id) }}">
-                                            <h5><strong>{{ $value->judul_berita }}</strong></h5>
-                                        </a>
-
-                                    </div>
-                                    <p>{!! substr($value->isi_berita, 0, 200) !!}{{ strlen($value->isi_berita) > 200 ? '...' : '' }}</p>
-                                    {{-- <img src="{{ asset('storage/gambar/' . $value->gambar) }}" alt="dokumentasi" width="100%" height="400px"> --}}
-
+                            <div id="konten">
+                                <div style="color: red" id="tanggal_berita">{{ $value->tanggal_berita }}</div>
+                                {{-- format tanggal {{ date('d F Y', strtotime($value->tanggal_berita)) }} --}}
+                                <div id="judul_berita">
+                                    <a href="{{ route('beranda.show', $value->id) }}">
+                                        <h5><strong>{{ $value->judul_berita }}</strong></h5>
+                                    </a>
                                 </div>
+                                <p>{!! substr($value->isi_berita, 0, 200) !!}{{ strlen($value->isi_berita) > 200 ? '...' : '' }}</p>
+                                {{-- <img src="{{ asset('storage/gambar/' . $value->gambar) }}" alt="dokumentasi" width="100%" height="400px"> --}}
+                            </div>
                             @endforeach
-
+                    
                             <div class="d-flex justify-content-center">
                                 {{ $data->links() }}
                             </div>
-
+                    
                             <hr />
                             [ <a href="beranda_arsip">Arsip Berita</a> ]
                         </div>
                     </td>
+                    
 
 
                     <td class="py-5" style="width: 20%">
@@ -284,6 +370,32 @@
         function openModal(modalId) {
             var modal = new bootstrap.Modal(document.getElementById(modalId));
             modal.show();
+        }
+
+        function updateStatusKegiatan(status, kegiatanId) {
+            // Kirim permintaan HTTP ke server untuk memperbarui status kegiatan
+            fetch('/kegiatan/update-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}', // Ganti dengan token CSRF dari Laravel
+                    },
+                    body: JSON.stringify({
+                        status: status,
+                        kegiatan_id: kegiatanId
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Tampilkan pesan atau lakukan tindakan lain setelah pembaruan berhasil
+                    console.log(data);
+                    window.location='/beranda';
+                    // Lakukan tindakan lain, seperti memuat ulang halaman atau memperbarui tampilan
+                })
+                .catch(error => {
+                    // Tangani kesalahan jika terjadi
+                    console.error(error);
+                });
         }
     </script>
 </body>

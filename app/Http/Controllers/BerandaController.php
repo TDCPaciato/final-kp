@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Expr\Cast\String_;
+use App\Http\Controllers\KegiatanController;
+
 
 class BerandaController extends Controller
 {
@@ -20,14 +22,21 @@ class BerandaController extends Controller
      */
     public function index()
     {
+        $kegiatanController = new KegiatanController();
+        $kegiatan = $kegiatanController->index();
+        $kegiatan = Kegiatan::all();
+        $rencana = Kegiatan::where('created_by', '=', Auth::id())->where('status', '=', 0)->get();
+        $sedang = Kegiatan::where('created_by', '=', Auth::id())->where('status', '=', 1)->get();
+        $sudah = Kegiatan::where('created_by', '=', Auth::id())->where('status', '=', 2)->get();
+        // $kegiatan = Kegiatan::where('status', 0)->latest()->first();
         $data=Beranda::latest()->paginate(5);
         $terbaru = Pengumuman::latest()->paginate(5);
         $rencana_kegiatan = Kegiatan::where('created_by', '=', Auth::id())->where('status', '=', 0)->count();
         $sedang_dilakukan = Kegiatan::where('created_by', '=', Auth::id())->where('status', '=', 1)->count();
         $sudah_dilakukan = Kegiatan::where('created_by', '=', Auth::id())->where('status', '=', 2)->count();
-        $kegiatan = Kegiatan::all();
         return view('konten')->with('data', $data)->with('terbaru', $terbaru)->with('rencana_kegiatan', $rencana_kegiatan)
-        ->with('sedang_dilakukan', $sedang_dilakukan)->with('sudah_dilakukan', $sudah_dilakukan); 
+        ->with('sedang_dilakukan', $sedang_dilakukan)->with('sudah_dilakukan', $sudah_dilakukan)->with('kegiatan', $kegiatan)
+        ->with('rencana', $rencana)->with('sedang', $sedang)->with('sudah', $sudah);
     
         // Mengurutkan data berdasarkan pertama kali diinputkan
         // $data = Beranda::orderBy('created_at', 'asc')->take(5)->get();
@@ -97,6 +106,8 @@ class BerandaController extends Controller
         $fotos = Foto::where('konten_id', '=', $id)-> get();
         return view('konten_detail')->with('konten', $konten)-> with('fotos', $fotos);
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.
